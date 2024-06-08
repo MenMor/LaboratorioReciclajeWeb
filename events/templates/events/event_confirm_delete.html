@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Eliminación de Evento</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'events/css/events_styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Confirmar Eliminación de Evento</h1>
+        </header>
+        <main>
+            <div class="confirmation">
+                <p>¿Estás seguro de que quieres eliminar el evento "{{ event.title }}"?</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit">Confirmar</button>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

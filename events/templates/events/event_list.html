@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Recompensas</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'events/css/events_styles.css' %}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'reward_list' %}">Gestionar Recompensas</a></li>
+            <li><a href="{% url 'question_list' %}">Gestionar Preguntas</a></li>
+            <li><a href="{% url 'generate_qr' %}">EcoPuntos</a></li>
+            <li><a href="{% url 'event_list' %}">Calendario de Eventos</a></li>
+            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <header>
+            <h1>Calendario de Eventos</h1>
+        </header>
+        <main>
+            <a href="{% url 'event_create' %}" class="button">Crear nuevo evento</a>
+            <ul>
+                {% for event in events %}
+                    <li>{{ event.title }} - {{ event.event_date }}
+                        <div class="action-buttons">
+                            <a href="{% url 'event_edit' event.pk %}" class="edit">Editar</a>
+                            <a href="{% url 'event_delete' event.pk %}" class="delete">Eliminar</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </main>
+    </div>
+</body>
+</html>

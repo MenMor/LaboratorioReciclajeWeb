@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container menu-container">
+    <h2 class="menu-title">Menú Principal</h2>
+    <ul class="menu">
+        <li><a href="{% url 'reward_list' %}">Gestionar Recompensas</a></li>
+        <li><a href="{% url 'question_list' %}">Gestionar Preguntas</a></li>
+        <li><a href="{% url 'generate_qr' %}">EcoPuntos</a></li>
+        <li><a href="{% url 'event_list' %}">Calendario de Eventos</a></li>
+        <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+    </ul>
+</div>
+{% endblock %}

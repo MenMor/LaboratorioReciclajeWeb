@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Pregunta</title>
+    <link rel="stylesheet" href="{% static 'questions/css/questions_styles.css' %}">
+</head>
+<body>
+    <h1>Eliminar Pregunta</h1>
+    <div class="container">
+        <p>¿Estás seguro de que deseas eliminar "{{ question.question }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Sí, eliminar</button>
+            <a href="{% url 'question_list' %}">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>
