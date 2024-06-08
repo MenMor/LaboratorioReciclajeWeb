@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Preguntas</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'questions/css/questions_styles.css' %}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'reward_list' %}">Gestionar Recompensas</a></li>
+            <li><a href="{% url 'question_list' %}">Gestionar Preguntas</a></li>
+            <li><a href="{% url 'generate_qr' %}">EcoPuntos</a></li>
+            <li><a href="{% url 'event_list' %}">Calendario de Eventos</a></li>
+            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h2>Lista de Preguntas</h2>
+        <a href="{% url 'question_create' %}" class="add-question-link">Añadir Nueva Pregunta</a>
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Pregunta</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for question in questions %}
+                    <tr>
+                        <td>{{ question.question }}</td>
+                        <td class="action-buttons">
+                            <a href="{% url 'question_update' question.pk %}" class="edit">Editar</a>
+                            <a href="{% url 'question_delete' question.pk %}" class="delete">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2">No hay preguntas disponibles.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

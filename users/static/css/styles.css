@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px; /* Ajusta este valor según tus necesidades */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 0; /* Añade esto para eliminar el margen superior */
+}
+
+form {
+    margin-top: 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    width: 100%;
+    background-color: #53f977;
+    color: #000000;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #37a850;
+}
+
+a {
+    color: #01390d;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+/* Estilos para el menú principal */
+body.menu {
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.container.menu-container {
+    max-width: 600px;
+}
+
+.menu-title {
+    text-align: center;
+    color: #333;
+    margin-top: 0;
+    font-size: 1.5em; /* Slightly larger font size for the title */
+}
+
+ul.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0; /* Remove default margin */
+}
+
+ul.menu li {
+    margin: 10px 0;
+}
+
+ul.menu li a {
+    display: block;
+    padding: 15px 25px; /* Increase padding for better spacing */
+    background-color: #28a745; /* Change to a more vibrant green */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1.2em; /* Slightly larger font size for menu items */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+ul.menu li a:hover {
+    background-color: #218838; /* Darker green on hover */
+}

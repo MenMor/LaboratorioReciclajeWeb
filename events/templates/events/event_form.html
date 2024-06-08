@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Evento</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'events/css/events_styles.css' %}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'reward_list' %}">Gestionar Recompensas</a></li>
+            <li><a href="{% url 'question_list' %}">Gestionar Preguntas</a></li>
+            <li><a href="{% url 'generate_qr' %}">EcoPuntos</a></li>
+            <li><a href="{% url 'event_list' %}">Calendario de Eventos</a></li>
+            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <header>
+            <h1>{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Evento</h1>
+        </header>
+        <main>
+            <div class="form-container">
+                <form method="post">
+                    {% csrf_token %}
+                    <label for="id_title">Título:</label>
+                    {{ form.title }}
+                    <label for="id_description">Descripción:</label>
+                    {{ form.description }}
+                    <label for="id_event_date">Fecha del evento:</label>
+                    {{ form.event_date }}
+                    <button type="submit">{% if form.instance.pk %}Actualizar{% else %}Crear{% endif %}</button>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

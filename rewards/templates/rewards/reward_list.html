@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Recompensas</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'rewards/css/rewards_styles.css' %}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'reward_list' %}">Gestionar Recompensas</a></li>
+            <li><a href="{% url 'question_list' %}">Gestionar Preguntas</a></li>
+            <li><a href="{% url 'generate_qr' %}">EcoPuntos</a></li>
+            <li><a href="{% url 'event_list' %}">Calendario de Eventos</a></li>
+            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h2>Catálogo de Recompensas</h2>
+        <a href="{% url 'reward_create' %}" class="add-reward-link">+ Crear</a>
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Puntos Necesarios</th>
+                        <th>Fecha de Finalización</th>
+                        <th>Imagen</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reward in rewards %}
+                    <tr>
+                        <td>{{ reward.name }}</td>
+                        <td>{{ reward.points }}</td>
+                        <td>{{ reward.expiration_date }}</td>
+                        <td>
+                            {% if reward.image %}
+                            <img src="{{ reward.image.url }}" alt="{{ reward.name }}">
+                            {% endif %}
+                        </td>
+                        <td class="action-buttons">
+                            <a href="{% url 'reward_update' reward.pk %}" class="edit">Editar</a>
+                            <a href="{% url 'reward_delete' reward.pk %}" class="delete">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">No hay recompensas disponibles.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

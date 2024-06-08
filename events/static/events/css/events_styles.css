@@ -1,0 +1,197 @@
+/* General styles for body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Styles for navigation */
+nav {
+    background-color: #4CAF50;
+    margin: 0;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul li {
+    margin: 0 10px;
+    padding: 0; /* Ensure no padding */
+    display: flex; /* Make li flex to adjust size of a tag */
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    border: none; /* Ensure no border */
+    box-shadow: none; /* Ensure no box shadow */
+    background-color: #4CAF50; /* Ensure background matches the nav bar */
+    margin: 0; /* Ensure no margin */
+}
+
+nav ul li a:hover {
+    background-color: #45a049;
+}
+
+/* Container styles */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+/* Button styles */
+.button, .action-buttons a {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+}
+
+.button:hover, .action-buttons a.edit:hover {
+    background-color: #45a049;
+}
+
+.action-buttons a.delete {
+    background-color: #e74c3c;
+}
+
+.action-buttons a.delete:hover {
+    background-color: #c0392b;
+}
+
+/* List styles */
+ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+li {
+    background: #fff;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action-buttons {
+    display: flex;
+}
+
+.action-buttons a {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 14px;
+}
+
+/* Form styles */
+.form-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: left;
+}
+
+input[type="text"], select, textarea, input[type="date"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+.confirmation {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Additional Styles for Spacing and Alignment */
+.header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    border-bottom: 2px solid #45a049;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+main {
+    padding: 20px 0;
+}
+
+a.button {
+    display: inline-block;
+    margin: 20px 0;
+}

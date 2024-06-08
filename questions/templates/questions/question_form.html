@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if form.instance.pk %}Editar Pregunta{% else %}Añadir Pregunta{% endif %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'questions/css/questions_styles.css' %}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'reward_list' %}">Gestionar Recompensas</a></li>
+            <li><a href="{% url 'question_list' %}">Gestionar Preguntas</a></li>
+            <li><a href="{% url 'generate_qr' %}">EcoPuntos</a></li>
+            <li><a href="{% url 'event_list' %}">Calendario de Eventos</a></li>
+            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h2>{% if form.instance.pk %}Editar Pregunta{% else %}Añadir Pregunta{% endif %}</h2>
+        <form method="post" class="question-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="button">Guardar</button>
+        </form>
+    </div>
+</body>
+</html>
