@@ -6,7 +6,8 @@ from .forms import SignupForm, LoginForm
 from django.http import HttpResponse, JsonResponse
 from firebase_admin import db
 from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
+
 
 @require_http_methods(["GET"])
 def index(request):
@@ -60,6 +61,7 @@ def user_signup(request):
         form = SignupForm()
     return render(request, 'signup.html', {'form': form})
 
+@csrf_protect
 @require_http_methods(["GET", "POST"])
 @login_required
 def user_logout(request):
