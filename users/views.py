@@ -5,10 +5,15 @@ from django.contrib.auth.models import User
 from .forms import SignupForm, LoginForm
 from django.http import HttpResponse, JsonResponse
 from firebase_admin import db
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_protect
 
+@require_http_methods(["GET"])
 def index(request):
     return render(request, 'index.html')
 
+@csrf_protect
+@require_http_methods(["GET", "POST"])
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -26,6 +31,8 @@ def user_login(request):
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
 
+@csrf_protect
+@require_http_methods(["GET", "POST"])
 def user_signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -53,12 +60,13 @@ def user_signup(request):
         form = SignupForm()
     return render(request, 'signup.html', {'form': form})
 
-
+@require_http_methods(["GET", "POST"])
 @login_required
 def user_logout(request):
     logout(request)
     return redirect('home')
 
+@require_http_methods(["GET"])
 @login_required
 def main_menu(request):
     return render(request, 'main_menu.html')
