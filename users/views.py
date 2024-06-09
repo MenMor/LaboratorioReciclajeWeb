@@ -14,7 +14,7 @@ def index(request):
     return render(request, 'index.html')
 
 @csrf_protect
-@require_http_methods(["GET", "POST"])
+@require_http_methods([ "POST"])
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -33,7 +33,7 @@ def user_login(request):
     return render(request, 'login.html', {'form': form})
 
 @csrf_protect
-@require_http_methods(["GET", "POST"])
+@require_http_methods(["POST"])
 def user_signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -62,7 +62,7 @@ def user_signup(request):
     return render(request, 'signup.html', {'form': form})
 
 @csrf_protect
-@require_http_methods(["GET", "POST"])
+@require_http_methods(["POST"])
 @login_required
 def user_logout(request):
     logout(request)
