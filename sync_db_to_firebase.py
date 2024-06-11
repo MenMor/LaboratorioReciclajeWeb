@@ -44,6 +44,7 @@ def sync_questions():
             'answer1': question.answer1,
             'answer2': question.answer2,
             'answer3': question.answer3,
+            'answer4': question.answer4,
             'correct_reply_index': question.correct_reply_index
         }
         questions_ref.child(str(question.id)).set(question_data)

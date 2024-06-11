@@ -58,7 +58,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rewards',
     'questions',
     'qr_codes',
     'rest_framework',
@@ -66,6 +65,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'users',
     'django_extensions',
+    'rewards.apps.RewardsConfig',
 ]
 
 MIDDLEWARE = [
