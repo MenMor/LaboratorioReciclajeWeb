@@ -36,4 +36,4 @@ def sync_user_to_firebase(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=User)
 def remove_user_from_firebase(sender, instance, **kwargs):
-    instance
+    instance.remove_from_firebase() 
