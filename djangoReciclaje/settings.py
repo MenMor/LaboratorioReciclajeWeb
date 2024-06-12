@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path, os
 import firebase_admin
 from firebase_admin import credentials, initialize_app
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,12 +29,12 @@ initialize_app(cred, {
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=0@6m%394%$t1+y&=k6hupct3$u!*c8=n-8*7ay(3b@bys+p12'
 
+SECRET_KEY = config('SECRET_KEY', default='unsafe-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
 
 # Seguridad
