@@ -4,12 +4,19 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from firebase_admin import db
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
 class Reward(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     points = models.IntegerField()
     image = models.ImageField(upload_to='reward_images', blank=True, null=True)
     expiration_date = models.DateTimeField(default=timezone.now)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -29,7 +36,8 @@ class Reward(models.Model):
             'description': self.description,
             'points': self.points,
             'image_url': self.image.url if self.image else None,
-            'expiration_date': self.expiration_date.isoformat()
+            'expiration_date': self.expiration_date.isoformat(),
+            'category': self.category.name
         })
 
     def remove_from_firebase(self):
