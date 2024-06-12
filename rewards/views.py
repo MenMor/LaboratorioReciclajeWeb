@@ -1,7 +1,7 @@
 # rewards/views.py
 
 from django.shortcuts import render, redirect
-from .models import Reward
+from .models import Reward, Category
 from .forms import RewardForm
 from rest_framework import generics
 from .serializers import RewardSerializer
@@ -24,6 +24,9 @@ def reward_create(request):
                 'name': reward.name,
                 'description': reward.description,
                 'points': reward.points,
+                'image_url': reward.image.url if reward.image else None,
+                'expiration_date': reward.expiration_date.isoformat(),
+                'category': reward.category.name  # Actualización para incluir la categoría
             })
 
             return redirect('reward_list')
@@ -44,6 +47,9 @@ def reward_update(request, pk):
                 'name': reward.name,
                 'description': reward.description,
                 'points': reward.points,
+                'image_url': reward.image.url if reward.image else None,
+                'expiration_date': reward.expiration_date.isoformat(),
+                'category': reward.category.name  # Actualización para incluir la categoría
             })
 
             return redirect('reward_list')
@@ -63,7 +69,6 @@ def reward_delete(request, pk):
 
         return redirect('reward_list')
     return render(request, 'rewards/reward_confirm_delete.html', {'reward': reward})
-
 
 # Vistas de la API usando DRF
 class RewardListCreate(generics.ListCreateAPIView):

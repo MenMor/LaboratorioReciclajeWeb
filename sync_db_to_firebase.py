@@ -31,7 +31,8 @@ def sync_rewards():
             'description': reward.description,
             'points': reward.points,
             'image_url': reward.image.url if reward.image else None,
-            'expiration_date': reward.expiration_date.isoformat()
+            'expiration_date': reward.expiration_date.isoformat(),
+            'category': reward.category.name  
         }
         rewards_ref.child(str(reward.id)).set(reward_data)
 
