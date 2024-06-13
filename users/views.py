@@ -64,10 +64,8 @@ def user_signup(request):
 @require_http_methods(["GET", "POST"])
 @login_required
 def user_logout(request):
-    if request.method == 'POST':
-        logout(request)
-        return redirect('home')
-    return render(request, 'logout.html') 
+    logout(request)
+    return redirect('home')
 
 @require_http_methods(["GET"])
 @login_required
