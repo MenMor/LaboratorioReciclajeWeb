@@ -53,7 +53,6 @@ def user_signup(request):
                 'username': user.username,
                 'email': user.email,
                 'is_superuser': user.is_superuser,
-                # Añadir más campos según sea necesario
             })
 
             return redirect('main_menu')
@@ -65,8 +64,10 @@ def user_signup(request):
 @require_http_methods(["GET", "POST"])
 @login_required
 def user_logout(request):
-    logout(request)
-    return redirect('home')
+    if request.method == 'POST':
+        logout(request)
+        return redirect('home')
+    return render(request, 'logout.html') 
 
 @require_http_methods(["GET"])
 @login_required
