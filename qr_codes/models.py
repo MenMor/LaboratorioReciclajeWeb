@@ -4,9 +4,16 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from firebase_admin import db
 
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
 class Recyclable(models.Model):
     description = models.CharField(max_length=255)
     value = models.IntegerField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.description
@@ -24,6 +31,7 @@ class Recyclable(models.Model):
         ref.set({
             'description': self.description,
             'value': self.value,
+            'category': self.category.name if self.category else None,
         })
 
     def remove_from_firebase(self):
@@ -62,12 +70,15 @@ class RecyclingTransaction(models.Model):
             'user': self.user.username,
             'quantity': self.quantity,
             'recyclable': self.recyclable.description,
+            'recyclable_category': self.recyclable.category.name if self.recyclable.category else None,
             'transaction_date': self.transaction_date.isoformat()
         })
 
     def remove_from_firebase(self):
         ref = db.reference('recycling_transactions').child(str(self.id))
         ref.delete()
+
+
 
 @receiver(post_save, sender=RecyclingTransaction)
 def sync_recycling_transaction_to_firebase(sender, instance, **kwargs):

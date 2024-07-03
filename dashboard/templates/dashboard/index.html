@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas de Reciclaje</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard_styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Verificar que Chart.js se carga correctamente
+        if (typeof Chart === 'undefined') {
+            console.error('Chart.js no se ha cargado correctamente.');
+        } else {
+            console.log('Chart.js se ha cargado correctamente.');
+        }
+
+        // Definir colores para cada categoría
+        const categoryColors = {
+            "Cartón/Papel": "rgba(54, 162, 235, 0.2)", // Azul
+            "Plástico": "rgba(255, 205, 86, 0.2)", // Amarillo
+            "Lata/Vidrio": "rgba(75, 192, 192, 0.2)", // Verde
+            "Electrónicos": "rgba(255, 99, 132, 0.2)" // Rojo
+        };
+
+        // Definir colores de borde para cada categoría
+        const categoryBorderColors = {
+            "Cartón/Papel": "rgba(54, 162, 235, 1)", // Azul
+            "Plástico": "rgba(255, 205, 86, 1)", // Amarillo
+            "Lata/Vidrio": "rgba(75, 192, 192, 1)", // Verde
+            "Electrónicos": "rgba(255, 99, 132, 1)" // Rojo
+        };
+
+        // Definir colores para cada material
+        const materialColors = {};
+        const materialBorderColors = {};
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function updateColors(materials) {
+            materials.forEach(material => {
+                if (!materialColors[material]) {
+                    const color = getRandomColor();
+                    materialColors[material] = color + '80'; // color con transparencia
+                    materialBorderColors[material] = color;
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'reward_list' %}">Gestionar Recompensas</a></li>
+            <li><a href="{% url 'question_list' %}">Gestionar Preguntas</a></li>
+            <li><a href="{% url 'generate_qr' %}">EcoPuntos</a></li>
+            <li><a href="{% url 'event_list' %}">Calendario de Eventos</a></li>
+            <li><a href="{% url 'dashboard_index' %}">Estadísticas</a></li>
+            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Estadísticas de Reciclaje</h1>
+        <form method="get" action="">
+            <label for="category">Seleccionar Categoría:</label>
+            <select name="category" id="category" onchange="this.form.submit()">
+                <option value="">Todas las Categorías</option>
+                {% for category in categories %}
+                    <option value="{{ category.name }}" {% if category.name == selected_category %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+        <div class="chart-container">
+            <canvas id="recyclingChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const recyclingData = {{ transactions|safe }};
+            const selectedCategory = "{{ selected_category }}"; // Pasar la categoría seleccionada desde Django
+
+            console.log('Recycling Data:', recyclingData); // Para depuración en la consola del navegador
+
+            if (!Array.isArray(recyclingData)) {
+                console.error('Expected an array but got:', typeof recyclingData);
+            } else {
+                const labels = recyclingData.map(t => t.month);
+                const datasets = [];
+
+                recyclingData.forEach((monthData, index) => {
+                    const materials = Object.keys(monthData.materials);
+                    updateColors(materials);
+
+                    materials.forEach(material => {
+                        const existingDataset = datasets.find(ds => ds.label === material);
+                        if (existingDataset) {
+                            existingDataset.data.push(monthData.materials[material]);
+                        } else {
+                            const backgroundColor = (selectedCategory === "") 
+                                ? categoryColors[material] 
+                                : materialColors[material];
+                            const borderColor = (selectedCategory === "") 
+                                ? categoryBorderColors[material] 
+                                : materialBorderColors[material];
+
+                            datasets.push({
+                                label: material,
+                                data: Array(index).fill(0).concat(monthData.materials[material]),
+                                backgroundColor: backgroundColor,
+                                borderColor: borderColor,
+                                borderWidth: 1
+                            });
+                        }
+                    });
+
+                    datasets.forEach(ds => {
+                        if (!monthData.materials[ds.label]) {
+                            ds.data.push(0);
+                        }
+                    });
+                });
+
+                const ctx = document.getElementById('recyclingChart').getContext('2d');
+                const data = {
+                    labels: labels,
+                    datasets: datasets
+                };
+
+                const config = {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const material = context.dataset.label;
+                                        const quantity = context.raw;
+                                        return `${material}: ${quantity}`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+
+                try {
+                    const recyclingChart = new Chart(ctx, config);
+                    console.log('Chart created successfully');
+                } catch (e) {
+                    console.error('Error creating chart:', e);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

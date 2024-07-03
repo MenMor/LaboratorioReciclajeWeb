@@ -32,8 +32,7 @@ initialize_app(cred, {
 
 SECRET_KEY = config('SECRET_KEY', default='unsafe-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
-
+DEBUG = True
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
 
@@ -67,6 +66,8 @@ INSTALLED_APPS = [
     'users',
     'django_extensions',
     'rewards.apps.RewardsConfig',
+    'dashboard',
+    'update_firebase',
 ]
 
 MIDDLEWARE = [
@@ -162,6 +163,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "questions" / "static",
     BASE_DIR / "qr_codes" / "static",
     BASE_DIR / "events" / "static",
+    BASE_DIR / "dashboard" / "static",
 ]
 
 MEDIA_URL = '/media/'

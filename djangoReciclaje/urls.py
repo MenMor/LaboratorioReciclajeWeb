@@ -27,6 +27,7 @@ urlpatterns = [
     path('questions/', include('questions.urls')),
     path('qr_codes/', include('qr_codes.urls')),
     path('events/', include('events.urls')),
+    path('dashboard/', include('dashboard.urls')),
     path('api/rewards/', include('rewards.api_urls')),  # Rutas de la API para rewards
     path('api/questions/', include('questions.api_urls')),  # Rutas de la API para questions
     path('api/qr_codes/', include('qr_codes.api_urls')),  # Rutas de la API para qr_codes
