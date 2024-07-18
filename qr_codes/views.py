@@ -16,9 +16,12 @@ from .models import QRCode
 from django.http import JsonResponse
 import uuid
 import json
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
+@require_http_methods(["GET", "POST"])
 def generate_qr_code(request):
     if request.method == 'POST':
         form = QRCodeForm(request.POST)
@@ -93,7 +96,9 @@ def generate_qr_code(request):
         form = QRCodeForm()
     return render(request, 'qr_codes/generate_qr.html', {'form': form})
 
+@csrf_protect
 @api_view(['POST'])
+@require_http_methods(["POST"])
 def scan_qr_code(request):
     code = request.data.get('code')
     try:
@@ -124,8 +129,9 @@ def scan_qr_code(request):
         return Response({'error': 'Invalid QR code'}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@csrf_protect
 @api_view(['POST'])
-
+@require_http_methods(["POST"])
 def verify_qr_code(request):
     qr_code_text = request.data.get('qr_code')
     user_id = request.data.get('user_id')
@@ -179,6 +185,7 @@ def verify_qr_code(request):
 
 @csrf_protect
 @api_view(['POST'])
+@require_http_methods(["POST"])
 def update_user_points(request):
     qr_code = request.data.get('qr_code')
     user_id = request.data.get('user_id')
