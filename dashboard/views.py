@@ -33,8 +33,8 @@ def index(request):
         recyclables_dict = {str(item): recyclables_data[item] for item in range(len(recyclables_data)) if recyclables_data[item]}
 
     # Depuración: Imprimir los diccionarios de categorías y reciclables
-    print(f"Categories Dict: {categories_dict}")
-    print(f"Recyclables Dict: {recyclables_dict}")
+    #print(f"Categories Dict: {categories_dict}")
+    #print(f"Recyclables Dict: {recyclables_dict}")
 
     # Procesar los datos de las transacciones
     data = defaultdict(lambda: defaultdict(int))  # Estructura: {mes: {categoría/material: cantidad}}
