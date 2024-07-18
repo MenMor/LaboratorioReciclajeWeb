@@ -5,7 +5,11 @@ from collections import defaultdict
 import datetime
 import requests
 import time
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.http import require_http_methods
 
+@csrf_protect
+@require_http_methods(["GET"]) 
 def index(request):
     selected_category = request.GET.get('category', None)
     ref = db.reference('recycling_transactions')
@@ -107,7 +111,7 @@ def get_location_name(latitude, longitude):
             elif 'address' in data and 'village' in data['address']:
                 return data['address']['village']
             else:
-                return "Nombre de ubicación no encontrado"
+                return "Pusuqui"
         else:
             return f"Error en la solicitud: {response.status_code}"
     except Exception as e:
