@@ -125,6 +125,7 @@ def scan_qr_code(request):
 
 
 @api_view(['POST'])
+
 def verify_qr_code(request):
     qr_code_text = request.data.get('qr_code')
     user_id = request.data.get('user_id')

@@ -119,7 +119,7 @@ def get_location_name(latitude, longitude):
         return "Error en la solicitud"
 
 @csrf_protect
-@require_http_methods(["GET", "POST"])
+@require_http_methods(["GET"])
 def dashboard_by_location(request):
     ref = db.reference('userposition')
     user_positions = ref.get()
