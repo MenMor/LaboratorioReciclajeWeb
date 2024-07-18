@@ -96,6 +96,7 @@ def generate_qr_code(request):
         form = QRCodeForm()
     return render(request, 'qr_codes/generate_qr.html', {'form': form})
 
+
 @csrf_protect
 @api_view(['POST'])
 @require_http_methods(["POST"])
@@ -183,7 +184,7 @@ def verify_qr_code(request):
     return JsonResponse({'message': 'Invalid QR Code', 'status': 'error'}, status=404)
 
 
-@csrf_protect
+@csrf_exempt
 @api_view(['POST'])
 @require_http_methods(["POST"])
 def update_user_points(request):
