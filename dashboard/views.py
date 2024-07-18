@@ -89,8 +89,6 @@ def index(request):
 
 
 # Vista para mostrar categorías por sectores de ubicación
-#GOOGLE_MAPS_API_KEY = 'AIzaSyDnvoLST0LYMESMG9ybXDT7TzaccWAxHNA'
-# https://nominatim.openstreetmap.org/reverse?lat=-0.23271000385284424&lon=-78.35403442382812&format=json
 
 def get_location_name(latitude, longitude):
     try:
