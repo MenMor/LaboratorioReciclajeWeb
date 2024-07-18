@@ -17,6 +17,7 @@ from django.http import JsonResponse
 import uuid
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_protect
 
 def generate_qr_code(request):
     if request.method == 'POST':
@@ -175,7 +176,7 @@ def verify_qr_code(request):
     return JsonResponse({'message': 'Invalid QR Code', 'status': 'error'}, status=404)
 
 
-@csrf_exempt
+@csrf_protect
 @api_view(['POST'])
 def update_user_points(request):
     qr_code = request.data.get('qr_code')
