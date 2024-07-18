@@ -50,28 +50,6 @@ def sync_questions():
         }
         questions_ref.child(str(question.id)).set(question_data)
 
-def sync_recyclables():
-    recyclables_ref = db.reference('recyclables', app=firebase_admin.get_app('sync_app'))
-    recyclables = Recyclable.objects.all()
-    for recyclable in recyclables:
-        recyclable_data = {
-            'description': recyclable.description,
-            'value': recyclable.value
-        }
-        recyclables_ref.child(str(recyclable.id)).set(recyclable_data)
-
-def sync_recycling_transactions():
-    transactions_ref = db.reference('recycling_transactions', app=firebase_admin.get_app('sync_app'))
-    transactions = RecyclingTransaction.objects.all()
-    for transaction in transactions:
-        transaction_data = {
-            'user': transaction.user.username,
-            'quantity': transaction.quantity,
-            'recyclable': transaction.recyclable.description,
-            'transaction_date': transaction.transaction_date.isoformat()
-        }
-        transactions_ref.child(str(transaction.id)).set(transaction_data)
-
 def sync_qr_codes():
     qr_codes_ref = db.reference('qr_codes', app=firebase_admin.get_app('sync_app'))
     qr_codes = QRCode.objects.all()
@@ -133,8 +111,6 @@ def sync_user_events():
 if __name__ == '__main__':
     sync_rewards()
     sync_questions()
-    sync_recyclables()
-    sync_recycling_transactions()
     sync_qr_codes()
     sync_user_points()
     sync_users()

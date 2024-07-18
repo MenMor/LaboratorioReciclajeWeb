@@ -8,4 +8,5 @@ urlpatterns = [
     path('new/', login_required(views.question_create), name='question_create'),
     path('edit/<int:pk>/', login_required(views.question_update), name='question_update'),
     path('delete/<int:pk>/', login_required(views.question_delete), name='question_delete'),
+    path('toggle_enable/<int:pk>/', login_required(views.toggle_enable), name='toggle_enable'),
 ]

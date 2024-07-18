@@ -48,13 +48,10 @@ def remove_recyclable_from_firebase(sender, instance, **kwargs):
 
 
 class RecyclingTransaction(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.CharField(max_length=255, verbose_name="User ID", default='17')
     quantity = models.IntegerField()
-    recyclable = models.ForeignKey(Recyclable, on_delete=models.CASCADE)
+    recyclable = models.CharField(max_length=255)  # Assuming this is how you store it
     transaction_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user.username} - {self.quantity} - {self.recyclable.description}"
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -65,18 +62,26 @@ class RecyclingTransaction(models.Model):
         super().delete(*args, **kwargs)
 
     def sync_to_firebase(self):
-        ref = db.reference('recycling_transactions').child(str(self.id))
-        ref.set({
-            'user': self.user.username,
-            'quantity': self.quantity,
-            'recyclable': self.recyclable.description,
-            'recyclable_category': self.recyclable.category.name if self.recyclable.category else None,
-            'transaction_date': self.transaction_date.isoformat()
-        })
+        """Sync this transaction to Firebase."""
+        try:
+            ref = db.reference('recycling_transactions')
+            transaction_data = {
+                'user_id': self.user_id,
+                'quantity': self.quantity,
+                'recyclable': self.recyclable,
+                'transaction_date': self.transaction_date.strftime('%Y-%m-%dT%H:%M:%S')
+            }
+            ref.child(str(self.id)).set(transaction_data)
+        except Exception as e:
+            print(f"Failed to sync with Firebase: {e}")
 
     def remove_from_firebase(self):
-        ref = db.reference('recycling_transactions').child(str(self.id))
-        ref.delete()
+        """Remove this transaction from Firebase."""
+        try:
+            ref = db.reference('recycling_transactions')
+            ref.child(str(self.id)).delete()
+        except Exception as e:
+            print(f"Failed to remove from Firebase: {e}")
 
 
 

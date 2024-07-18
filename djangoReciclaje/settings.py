@@ -22,7 +22,8 @@ FIREBASE_CREDENTIALS_PATH = os.path.join(BASE_DIR, 'credentials', 'laboratoriore
 # Inicializar Firebase Admin SDK
 cred = credentials.Certificate(FIREBASE_CREDENTIALS_PATH)
 initialize_app(cred, {
-    'databaseURL': 'https://laboratorioreciclajea-default-rtdb.firebaseio.com/'  
+    'databaseURL': 'https://laboratorioreciclajea-default-rtdb.firebaseio.com/',
+    'storageBucket': 'laboratorioreciclajea.appspot.com' 
 })
 
 # Quick-start development settings - unsuitable for production

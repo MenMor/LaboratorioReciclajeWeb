@@ -19,8 +19,8 @@
     </nav>
     <div class="container">
         <h1>Tu Código QR</h1>
-        <img src="{{ MEDIA_URL }}{{ qr_code_path }}" alt="Código QR">
-        <p>¡Has ganado {{ points }} puntos!</p>
+        <img src="/media/{{ qr_code_path }}" alt="QR Code">
+        <p>iHas ganado {{ points }} puntos!</p>
         <a href="{% url 'generate_qr' %}">Generar otro código QR</a>
     </div>
 </body>

@@ -32,6 +32,7 @@ class Reward(models.Model):
     def sync_to_firebase(self):
         ref = db.reference('rewards').child(str(self.id))
         ref.set({
+            'id':self.id,
             'name': self.name,
             'description': self.description,
             'points': self.points,

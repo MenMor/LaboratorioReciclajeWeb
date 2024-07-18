@@ -14,11 +14,12 @@ class QuestionForm(forms.ModelForm):
 
     class Meta:
         model = Question
-        fields = ['question', 'answer1', 'answer2', 'answer3', 'answer4', 'correct_reply_index']
+        fields = ['question', 'answer1', 'answer2', 'answer3', 'answer4', 'correct_reply_index', 'enable']
         labels = {
             'question': 'Pregunta',
             'answer1': 'Respuesta 1',
             'answer2': 'Respuesta 2',
             'answer3': 'Respuesta 3',
             'answer4': 'Respuesta 4',
+            'enable': 'Habilitada'
         }

@@ -10,6 +10,7 @@ class Question(models.Model):
     answer3 = models.CharField(max_length=255)
     answer4 = models.CharField(max_length=255)
     correct_reply_index = models.IntegerField()
+    enable = models.BooleanField(default=True)
 
     def __str__(self):
         return self.question
@@ -25,12 +26,14 @@ class Question(models.Model):
     def sync_to_firebase(self):
         ref = db.reference('questions').child(str(self.id))
         ref.set({
+            'id': self.id,
             'question': self.question,
             'answer1': self.answer1,
             'answer2': self.answer2,
             'answer3': self.answer3,
             'answer4': self.answer4,
-            'correct_reply_index': self.correct_reply_index
+            'correct_reply_index': self.correct_reply_index,
+            'enable': self.enable 
         })
 
     def remove_from_firebase(self):

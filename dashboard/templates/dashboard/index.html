@@ -63,12 +63,14 @@
             <li><a href="{% url 'generate_qr' %}">EcoPuntos</a></li>
             <li><a href="{% url 'event_list' %}">Calendario de Eventos</a></li>
             <li><a href="{% url 'dashboard_index' %}">Estadísticas</a></li>
+            <li><a href="{% url 'dashboard_by_location' %}">Estadísticas por Ubicación</a></li>
             <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
         </ul>
     </nav>
 
     <div class="container">
         <h1>Estadísticas de Reciclaje</h1>
+        <button class="location-stats-button" onclick="window.location.href='{% url 'dashboard_by_location' %}'">Ver Estadísticas por Ubicación</button>
         <form method="get" action="">
             <label for="category">Seleccionar Categoría:</label>
             <select name="category" id="category" onchange="this.form.submit()">

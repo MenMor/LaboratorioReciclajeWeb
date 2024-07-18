@@ -5,3 +5,8 @@ media/
 venv/
 credentials/laboratorioreciclajea.json
 .env
+.firebaserc
+firebase_app.py
+firebase.json
+localhost.crt
+localhost.key

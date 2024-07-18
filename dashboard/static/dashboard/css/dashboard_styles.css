@@ -63,3 +63,17 @@ canvas {
     width: 100% !important;
     height: auto !important;
 }
+
+.location-stats-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.location-stats-button:hover {
+    background-color: #45a049;
+}

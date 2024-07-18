@@ -23,6 +23,7 @@ class Event(models.Model):
     def sync_to_firebase(self):
         ref = db.reference('events').child(str(self.id))
         ref.set({
+            'id':self.id,
             'title': self.title,
             'description': self.description,
             'event_date': self.event_date.isoformat()
@@ -60,6 +61,7 @@ class UserEvent(models.Model):
     def sync_to_firebase(self):
         ref = db.reference('user_events').child(str(self.id))
         ref.set({
+            'id':self.id,
             'user': self.user.username,
             'event': self.event.title,
             'registered_at': self.registered_at.isoformat()

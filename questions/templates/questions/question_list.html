@@ -27,6 +27,7 @@
                     <tr>
                         <th>Pregunta</th>
                         <th>Acciones</th>
+                        <th>Habilitada</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,15 +38,18 @@
                             <a href="{% url 'question_update' question.pk %}" class="edit">Editar</a>
                             <a href="{% url 'question_delete' question.pk %}" class="delete">Eliminar</a>
                         </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="2">No hay preguntas disponibles.</td>
+                        <td>
+                            <form method="post" action="{% url 'toggle_enable' question.pk %}">
+                                {% csrf_token %}
+                                <input type="checkbox" name="enable" onchange="this.form.submit()" {% if question.enable %}checked{% endif %}>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+        
     </div>
 </body>
 </html>

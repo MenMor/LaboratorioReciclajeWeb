@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas de Reciclaje por Ubicación</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard_styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'reward_list' %}">Gestionar Recompensas</a></li>
+            <li><a href="{% url 'question_list' %}">Gestionar Preguntas</a></li>
+            <li><a href="{% url 'generate_qr' %}">EcoPuntos</a></li>
+            <li><a href="{% url 'event_list' %}">Calendario de Eventos</a></li>
+            <li><a href="{% url 'dashboard_index' %}">Estadísticas</a></li>
+            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Estadísticas de Reciclaje Escaneado por Ubicación</h1>
+        <div class="chart-container">
+            <canvas id="locationChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const locationData = {{ location_data|safe }};
+            console.log('Location Data:', locationData); // Para depuración en la consola del navegador
+
+            if (!Array.isArray(locationData)) {
+                console.error('Expected an array but got:', typeof locationData);
+            } else {
+                const labels = locationData.map(d => d.sector);
+                const datasets = [];
+
+                locationData.forEach((sectorData, index) => {
+                    const categories = Object.keys(sectorData.categories);
+                    categories.forEach(category => {
+                        const existingDataset = datasets.find(ds => ds.label === category);
+                        if (existingDataset) {
+                            existingDataset.data.push(sectorData.categories[category]);
+                        } else {
+                            const color = getRandomColor();
+                            datasets.push({
+                                label: category,
+                                data: Array(index).fill(0).concat(sectorData.categories[category]),
+                                backgroundColor: color + '80',
+                                borderColor: color,
+                                borderWidth: 1
+                            });
+                        }
+                    });
+
+                    datasets.forEach(ds => {
+                        if (!sectorData.categories[ds.label]) {
+                            ds.data.push(0);
+                        }
+                    });
+                });
+
+                const ctx = document.getElementById('locationChart').getContext('2d');
+                const data = {
+                    labels: labels,
+                    datasets: datasets
+                };
+
+                const config = {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const category = context.dataset.label;
+                                        const quantity = context.raw;
+                                        return `${category}: ${quantity}`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+
+                try {
+                    const locationChart = new Chart(ctx, config);
+                    console.log('Chart created successfully');
+                } catch (e) {
+                    console.error('Error creating chart:', e);
+                }
+            }
+        });
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
+</body>
+</html>

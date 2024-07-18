@@ -89,55 +89,65 @@ h2 {
     overflow-x: auto;
 }
 
-.table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Asegura que padding y border no afecten el ancho definido */
 }
 
+/* Estilos de la tabla */
+.table {
+    width: 100%;
+    border-collapse: collapse; /* Elimina espacio entre celdas */
+}
+
+/* Encabezados y celdas de la tabla */
 .table th, .table td {
     padding: 12px;
     border: 1px solid #ddd;
     text-align: center;
-}
-
-.table th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-}
-
-.table td {
+    vertical-align: middle;
     background-color: #fff;
 }
 
-.table td:first-child {
-    text-align: left;
+/* Ajusta específicamente el ancho de cada columna */
+.table th:nth-child(1), .table td:nth-child(1) {
+    width: 70%; /* Ajusta según el contenido */
 }
 
-.table td:last-child {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+.table th:nth-child(2), .table td:nth-child(2) {
+    width: 100%; /* Espacio para botones */
 }
 
-.table td img {
-    max-width: 100px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+.table th:nth-child(3), .table td:nth-child(3) {
+    width: 20%; /* Espacio suficiente para el checkbox */
 }
 
+.table td input[type="checkbox"] {
+    cursor: pointer;
+    display: block;  /* Centrar checkbox en su celda */
+    margin: 0 auto;  /* Alineación horizontal */
+    transform: scale(1.3);  /* Tamaño más grande para fácil interacción */
+}
+
+/* Estilos para los botones dentro de la columna de acciones */
 .action-buttons {
     display: flex;
-    justify-content: center;
-    gap: 10px;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    width: 100%; /* Espacio entre botones */
 }
 
 .action-buttons a {
     text-decoration: none;
     padding: 8px 12px;
     border-radius: 5px;
-    color: #fff;
+    color: white;
+    background-color: #4CAF50; /* Verde para editar */
+    margin: 5px; /* Espaciado entre botones */
+    transition: background-color 0.3s; 
 }
+
 
 .action-buttons a.edit {
     background-color: #4CAF50;
@@ -145,6 +155,10 @@ h2 {
 
 .action-buttons a.delete {
     background-color: #f44336;
+}
+
+.action-buttons a:hover {
+    opacity: 0.8; /* Efecto visual al pasar el ratón por encima */
 }
 
 .add-question-link {

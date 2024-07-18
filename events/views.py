@@ -5,10 +5,21 @@ from .forms import EventForm
 from rest_framework import generics
 from .models import Event, UserEvent
 from .serializers import EventSerializer, UserEventSerializer
+from django.http import HttpResponse, JsonResponse
+
+from django.core import serializers
+
 
 def event_list(request):
     events = Event.objects.all()
     return render(request, 'events/event_list.html', {'events': events})
+
+#def event_list(request):
+#    events = Event.objects.all().values('id', 'title', 'description', 'event_date')
+#    print(events)
+#    #event_list = list(events)
+#    return JsonResponse(events, safe=False)
+    
 
 def event_create(request):
     if request.method == 'POST':
