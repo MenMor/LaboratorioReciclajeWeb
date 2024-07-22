@@ -112,8 +112,18 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+     'postgres': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'deprdn0ppo0u9q',
+        'USER': 'u55lvfj26ak8ul',
+        'PASSWORD': 'pa30edd172fd65a289116624b1b0a37dda367323152f0fda2d8a9dcadf01b01d8', 
+        'HOST': 'c3nv2ev86aje4j.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
+
+DATABASE_ROUTERS = ['djangoReciclaje.db_router.PostgresRouter']
 
 # Redirigir al menú principal después de iniciar sesión
 LOGIN_REDIRECT_URL = 'main_menu'

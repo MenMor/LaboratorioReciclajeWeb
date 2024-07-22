@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Recompensas</title>
+    <title>Calendario de Eventos</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'events/css/events_styles.css' %}">
 </head>
@@ -26,7 +26,13 @@
             <a href="{% url 'event_create' %}" class="button">Crear nuevo evento</a>
             <ul>
                 {% for event in events %}
-                    <li>{{ event.title }} - {{ event.event_date }}
+                    <li>
+                        {{ event.title }} - {{ event.event_date }}
+                        {% if event.imageUrl %}
+                            <div class="event-image">
+                                <img src="{{ event.imageUrl }}" alt="{{ event.title }}" style="width: 100px; height: auto;">
+                            </div>
+                        {% endif %}
                         <div class="action-buttons">
                             <a href="{% url 'event_edit' event.pk %}" class="edit">Editar</a>
                             <a href="{% url 'event_delete' event.pk %}" class="delete">Eliminar</a>

@@ -24,7 +24,7 @@
         </header>
         <main>
             <div class="form-container">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">  <!-- Asegúrate de incluir enctype -->
                     {% csrf_token %}
                     <label for="id_title">Título:</label>
                     {{ form.title }}
@@ -32,6 +32,8 @@
                     {{ form.description }}
                     <label for="id_event_date">Fecha del evento:</label>
                     {{ form.event_date }}
+                    <label for="id_image">Imagen:</label>
+                    {{ form.image }}
                     <button type="submit">{% if form.instance.pk %}Actualizar{% else %}Crear{% endif %}</button>
                 </form>
             </div>

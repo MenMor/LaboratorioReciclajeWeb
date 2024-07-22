@@ -14,18 +14,12 @@ def event_list(request):
     events = Event.objects.all()
     return render(request, 'events/event_list.html', {'events': events})
 
-#def event_list(request):
-#    events = Event.objects.all().values('id', 'title', 'description', 'event_date')
-#    print(events)
-#    #event_list = list(events)
-#    return JsonResponse(events, safe=False)
-    
-
 def event_create(request):
     if request.method == 'POST':
-        form = EventForm(request.POST)
+        form = EventForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            event = form.save(commit=False)
+            event.save(image=request.FILES['image'] if 'image' in request.FILES else None)
             return redirect('event_list')  # Redirigir a la lista de eventos después de crear
     else:
         form = EventForm()
@@ -34,9 +28,10 @@ def event_create(request):
 def event_edit(request, pk):
     event = get_object_or_404(Event, pk=pk)
     if request.method == 'POST':
-        form = EventForm(request.POST, instance=event)
+        form = EventForm(request.POST, request.FILES, instance=event)
         if form.is_valid():
-            form.save()
+            event = form.save(commit=False)
+            event.save(image=request.FILES['image'] if 'image' in request.FILES else None)
             return redirect('event_list')  # Redirigir a la lista de eventos después de editar
     else:
         form = EventForm(instance=event)

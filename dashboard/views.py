@@ -111,15 +111,21 @@ def get_location_name(latitude, longitude):
             elif 'address' in data and 'village' in data['address']:
                 return data['address']['village']
             else:
-                return "Pusuqui"
+                return None  # No se encontró un nombre de ubicación válido
         else:
-            return f"Error en la solicitud: {response.status_code}"
+            return None  # No se encontraron datos de dirección
+    except requests.exceptions.RequestException as e:
+        print(f"Error en la solicitud a Nominatim: {e}")
+        return None
+    except ValueError:
+        print(f"Error al convertir las coordenadas: {latitude}, {longitude}")
+        return None
     except Exception as e:
-        print(f"Error al obtener el nombre de la ubicación: {e}")
-        return "Error en la solicitud"
+        print(f"Error inesperado: {e}")
+        return None
 
 @csrf_protect
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "POST"])
 def dashboard_by_location(request):
     ref = db.reference('userposition')
     user_positions = ref.get()
@@ -137,7 +143,8 @@ def dashboard_by_location(request):
             coord_key = (latitude, longitude)
             if coord_key not in unique_coordinates:
                 sector_name = get_location_name(latitude, longitude)
-                unique_coordinates[coord_key] = sector_name
+                if sector_name:  
+                    unique_coordinates[coord_key] = sector_name
 
     for key, value in user_positions.items():
         latitude = value.get('latitude')
@@ -145,8 +152,9 @@ def dashboard_by_location(request):
         category = value.get('categoryreciclying')
         if latitude and longitude and category:
             coord_key = (latitude, longitude)
-            sector_name = unique_coordinates.get(coord_key, "Nombre de ubicación no encontrado")
-            location_data[sector_name][category] += 1
+            sector_name = unique_coordinates.get(coord_key)
+            if sector_name:  # Solo usar sectores válidos
+                location_data[sector_name][category] += 1
 
     print(f"Location Data: {location_data}")
 

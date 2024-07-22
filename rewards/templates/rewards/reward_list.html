@@ -28,6 +28,7 @@
                         <th>Nombre</th>
                         <th>Puntos Necesarios</th>
                         <th>Fecha de Finalización</th>
+                        <th>Cantidad</th>
                         <th>Imagen</th>
                         <th>Acciones</th>
                     </tr>
@@ -38,6 +39,7 @@
                         <td>{{ reward.name }}</td>
                         <td>{{ reward.points }}</td>
                         <td>{{ reward.expiration_date }}</td>
+                        <td>{{ reward.quantity }}</td>
                         <td>
                             {% if reward.image %}
                             <img src="{{ reward.image.url }}" alt="{{ reward.name }}">
@@ -46,11 +48,12 @@
                         <td class="action-buttons">
                             <a href="{% url 'reward_update' reward.pk %}" class="edit">Editar</a>
                             <a href="{% url 'reward_delete' reward.pk %}" class="delete">Eliminar</a>
+                            <a href="{% url 'redeem_reward_form' reward.pk %}" class="redeem">Canjear</a>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="5">No hay recompensas disponibles.</td>
+                        <td colspan="6">No hay recompensas disponibles.</td>
                     </tr>
                     {% endfor %}
                 </tbody>

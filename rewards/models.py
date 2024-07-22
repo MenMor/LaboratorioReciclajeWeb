@@ -4,24 +4,22 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from firebase_admin import db
 
-class Category(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
 class Reward(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     points = models.IntegerField()
     image = models.ImageField(upload_to='reward_images', blank=True, null=True)
+    image_url = models.URLField(max_length=200, blank=True, null=True)
     expiration_date = models.DateTimeField(default=timezone.now)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category_name = models.CharField(max_length=100)
+    quantity = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
     
     def save(self, *args, **kwargs):
+        if self.image and not self.image_url:
+            self.image_url = self.upload_image_to_firebase()
         super().save(*args, **kwargs)
         self.sync_to_firebase()
 
@@ -36,9 +34,10 @@ class Reward(models.Model):
             'name': self.name,
             'description': self.description,
             'points': self.points,
-            'image_url': self.image.url if self.image else None,
+            'image_url': self.image_url,
             'expiration_date': self.expiration_date.isoformat(),
-            'category': self.category.name
+            'category': self.category_name,
+            'quantity': self.quantity
         })
 
     def remove_from_firebase(self):
@@ -52,3 +51,18 @@ def sync_reward_to_firebase(sender, instance, **kwargs):
 @receiver(post_delete, sender=Reward)
 def remove_reward_from_firebase(sender, instance, **kwargs):
     instance.remove_from_firebase()
+
+# Definición del modelo SecondaryCategory para la segunda base de datos
+class SecondaryCategory(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=180)
+    image = models.CharField(max_length=255)
+    created_at = models.DateTimeField()
+
+    class Meta:
+        db_table = 'categories'
+        managed = False 
+        app_label = 'rewards'
+
+    def __str__(self):
+        return self.name
