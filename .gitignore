@@ -10,3 +10,4 @@ firebase_app.py
 firebase.json
 localhost.crt
 localhost.key
+djangoReciclaje/settings.py
